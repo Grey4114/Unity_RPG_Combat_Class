@@ -1,10 +1,16 @@
-﻿using UnityEngine;
-using UnityEngine.AI;
+﻿using System.Collections;
+using System.Collections.Generic;
 using RPG.Combat;
+using RPG.Core;
+using UnityEngine;
+using UnityEngine.AI;
+
 
 namespace RPG.Movement
 {
-    public class Mover : MonoBehaviour
+    // NOTE - Cnnot inherit from more then 1 class, 
+    // but can inherit from as many interfaces (ie. IAction) as needed
+    public class Mover : MonoBehaviour, IAction
     {
         [SerializeField] Transform target;
 
@@ -21,12 +27,14 @@ namespace RPG.Movement
         }
 
         public void StartMoveAction(Vector3 destination)
-        {            
-            GetComponent<Fighter>().Cancel();  // Cancels fighting before moving
+        {
+            GetComponent<ActionScheduler>().StartAction(this);
+            // Cancel();  // Cancels fighting before moving
+            // GetComponent<Fighter>().Cancel();  // Cancels fighting before moving
             MoveTo(destination);
         }
 
-        // Made it public so it acna be called from outstide of 
+        // Made it public so it can be called from outstide of 
         // the mover class
         public void MoveTo(Vector3 destination)
         {
@@ -36,8 +44,13 @@ namespace RPG.Movement
 
         public void Stop()
         {
-            navMeshAgent.isStopped = true;
-            
+            navMeshAgent.isStopped = true; 
+        }
+
+        // NOTE - This method is required to allow the script to work with IAction
+        public void Cancel()
+        {
+            GetComponent<Fighter>().Cancel();
         }
 
         private void UpdateAnimator()
