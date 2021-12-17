@@ -20,18 +20,24 @@ namespace RPG.Movement
             UpdateAnimator();
         }
 
+        public void StartMoveAction(Vector3 destination)
+        {            
+            GetComponent<Fighter>().Cancel();  // Cancels fighting before moving
+            MoveTo(destination);
+        }
+
         // Made it public so it acna be called from outstide of 
         // the mover class
         public void MoveTo(Vector3 destination)
         {
             navMeshAgent.destination = destination;
             navMeshAgent.isStopped = false;
-
         }
 
         public void Stop()
         {
             navMeshAgent.isStopped = true;
+            
         }
 
         private void UpdateAnimator()

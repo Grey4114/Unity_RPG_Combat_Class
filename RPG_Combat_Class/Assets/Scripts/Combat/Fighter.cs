@@ -8,14 +8,28 @@ namespace RPG.Combat
         [SerializeField] float weaponRange = 2f;
         Transform target;
 
-        private void Update() 
+        private void Update()
         {
-            // Move to the target
-            if (target != null)
+            // If there is no target then do not proceed
+            if (target == null) return;
+
+            // Move to the target and stops when in range
+            // if (target != null && !GetIsInRange())
+            if (!GetIsInRange())
             {
                 GetComponent<Mover>().MoveTo(target.position);
             }
-            
+            else
+            {
+                GetComponent<Mover>().Stop();
+            }
+
+        }
+
+        private bool GetIsInRange()
+        {
+            // Vector3.Distance(current position, target position)
+            return Vector3.Distance(transform.position, target.position) < weaponRange;
         }
 
 
@@ -24,6 +38,12 @@ namespace RPG.Combat
         {
             target = combatTarget.transform;
             Debug.Log("Take that you dumb peasant!");
+        }
+
+        // This resets the target, so that the character does not get stuck on the target
+        public void Cancel()
+        {
+           target = null; 
         }
         
     }
