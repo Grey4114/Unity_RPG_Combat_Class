@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using RPG.Combat;
 using RPG.Core;
 using UnityEngine;
 using UnityEngine.AI;
@@ -29,7 +28,6 @@ namespace RPG.Movement
         public void StartMoveAction(Vector3 destination)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            // Cancel();  // Cancels fighting before moving
             // GetComponent<Fighter>().Cancel();  // Cancels fighting before moving
             MoveTo(destination);
         }
@@ -42,15 +40,11 @@ namespace RPG.Movement
             navMeshAgent.isStopped = false;
         }
 
-        public void Stop()
-        {
-            navMeshAgent.isStopped = true; 
-        }
-
         // NOTE - This method is required to allow the script to work with IAction
+        // Renamed Stop to Cancel and removed Cancel
         public void Cancel()
         {
-            GetComponent<Fighter>().Cancel();
+            navMeshAgent.isStopped = true; 
         }
 
         private void UpdateAnimator()
