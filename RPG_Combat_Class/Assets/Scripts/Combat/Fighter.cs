@@ -9,7 +9,11 @@ namespace RPG.Combat
     public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] float weaponRange = 2f;
+        [SerializeField] float timeBetweenAttacks = 1f;
+
         Transform target;
+
+        float timeSinceLastAttack = 0;
 
         private void Update()
         {
@@ -25,8 +29,14 @@ namespace RPG.Combat
             else
             {
                 GetComponent<Mover>().Cancel();
+                AttackBehaviour();  // activates the attack animation
             }
 
+        }
+
+        private void AttackBehaviour()
+        {
+            GetComponent<Animator>().SetTrigger("attack");
         }
 
         private bool GetIsInRange()
@@ -49,6 +59,13 @@ namespace RPG.Combat
         {
            target = null; 
         }
+
+        // Animation Event - Called from animator
+        void Hit()
+        {
+            
+        }
+        
         
     }
 }
