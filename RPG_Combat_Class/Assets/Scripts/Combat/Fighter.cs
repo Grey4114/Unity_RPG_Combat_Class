@@ -12,7 +12,9 @@ namespace RPG.Combat
         [SerializeField] float timeBetweenAttacks = 1f;
         [SerializeField] float weaponDamage = 5f;
 
-        Transform target;
+        Health target;
+        
+        // bool canAttack = false;
 
         float timeSinceLastAttack = 0f;
 
@@ -23,11 +25,14 @@ namespace RPG.Combat
             // If there is no target then do not proceed
             if (target == null) return;
 
+            // If the bool is true == dead, then do not proceed
+            if (target.IsDead()) return;
+
             // Move to the target and stops when in range
             // if (target != null && !GetIsInRange())
             if (!GetIsInRange())
             {
-                GetComponent<Mover>().MoveTo(target.position);
+                GetComponent<Mover>().MoveTo(target.transform.position);
             }
             else
             {
@@ -38,30 +43,49 @@ namespace RPG.Combat
         }
 
 
+        public bool CanAttack(CombatTarget combatTarget)
+        {
+            if (combatTarget == null) {return false;}
+
+            Health targetToTest = combatTarget.GetComponent<Health>();
+            return targetToTest != null && !targetToTest.IsDead();
+ 
+        }
+
         private void AttackBehaviour()
         {
             if (timeSinceLastAttack > timeBetweenAttacks)
             {
+                // This make the plaer look at the target before attacking
+                transform.LookAt(target.transform);
+
                 // This will trigger the Hit() event
-                GetComponent<Animator>().SetTrigger("attack");
+                TriggerAttack();
                 timeSinceLastAttack = 0f;
             }
+        }
+
+        private void TriggerAttack()
+        {
+            GetComponent<Animator>().ResetTrigger("stopAttack");
+            GetComponent<Animator>().SetTrigger("attack");
         }
 
 
         // Animation Event - Called from animator
         void Hit()
         {
+            if(target == null) return;  // prevent a null target bug
+            
             // NOTE - note damage is applied after animation is played
-            Health healthComponent = target.GetComponent<Health>();
-            healthComponent.TakeDamage(weaponDamage);
+            target.TakeDamage(weaponDamage);
         }
 
 
         private bool GetIsInRange()
         {
             // Vector3.Distance(current position, target position)
-            return Vector3.Distance(transform.position, target.position) < weaponRange;
+            return Vector3.Distance(transform.position, target.transform.position) < weaponRange;
         }
 
 
@@ -69,19 +93,25 @@ namespace RPG.Combat
         public void Attack(CombatTarget combatTarget)
         {
             GetComponent<ActionScheduler>().StartAction(this); // Add notes 
-            target = combatTarget.transform;
-            // target.GetComponent<Health>().TakeDamage(20f);
-            Debug.Log("Take that you dumb peasant!");
+            target = combatTarget.GetComponent<Health>();
+
+            // Debug.Log("Take that you dumb peasant!");
         }
 
         // This resets the target, so that the character does not get stuck on the target
         public void Cancel()
         {
-           target = null; 
+            StopAttack();
+            target = null;
+        }
+
+        private void StopAttack()
+        {
+            GetComponent<Animator>().ResetTrigger("attack");
+            GetComponent<Animator>().SetTrigger("stopAttack");
         }
 
 
-        
-        
+
     }
 }

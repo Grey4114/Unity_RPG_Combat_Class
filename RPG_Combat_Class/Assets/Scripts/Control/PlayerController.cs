@@ -13,6 +13,8 @@ namespace RPG.Control
     // Moved the class into a namespace
     public class PlayerController : MonoBehaviour
     {
+        Fighter fighter;
+
         void Update()
         {
             if (InteractWithCombat()) return;
@@ -30,20 +32,21 @@ namespace RPG.Control
             {
                 //Teacher version
                 CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                if(target == null) continue;  //Continues through the loop is null
+
+
+                if(!GetComponent<Fighter>().CanAttack(target))
+                {
+                    continue;  //Continues through the foreach loop if true
+                }
+
+                
 
                 if(Input.GetMouseButtonDown(0))
                 {
                     GetComponent<Fighter>().Attack(target);
                 }
 
-                return true;  // Found a combat tarfet to interact with
-
-                // My version
-                // if (hit.transform.GetComponent<CombatTarget>())
-                // {
-                //     GetComponent<CombatTarget>().HitTarget();
-                // }
+                return true;  // Found a combat target to interact with
             }
             return false;  // did not find a combat targets to interact with
         }
