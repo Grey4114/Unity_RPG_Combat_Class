@@ -33,8 +33,9 @@ namespace RPG.Control
                 //Teacher version
                 CombatTarget target = hit.transform.GetComponent<CombatTarget>();
 
+                if (target == null) continue;
 
-                if(!GetComponent<Fighter>().CanAttack(target))
+                if(!GetComponent<Fighter>().CanAttack(target.gameObject))
                 {
                     continue;  //Continues through the foreach loop if true
                 }
@@ -43,7 +44,7 @@ namespace RPG.Control
 
                 if(Input.GetMouseButtonDown(0))
                 {
-                    GetComponent<Fighter>().Attack(target);
+                    GetComponent<Fighter>().Attack(target.gameObject);
                 }
 
                 return true;  // Found a combat target to interact with

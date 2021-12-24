@@ -43,14 +43,6 @@ namespace RPG.Combat
         }
 
 
-        public bool CanAttack(CombatTarget combatTarget)
-        {
-            if (combatTarget == null) {return false;}
-
-            Health targetToTest = combatTarget.GetComponent<Health>();
-            return targetToTest != null && !targetToTest.IsDead();
- 
-        }
 
         private void AttackBehaviour()
         {
@@ -89,13 +81,20 @@ namespace RPG.Combat
         }
 
 
+        public bool CanAttack(GameObject combatTarget)
+        {
+            if (combatTarget == null) {return false;}
+
+            Health targetToTest = combatTarget.GetComponent<Health>();
+            return targetToTest != null && !targetToTest.IsDead();
+ 
+        }
+
         // Attack the target
-        public void Attack(CombatTarget combatTarget)
+        public void Attack(GameObject combatTarget)
         {
             GetComponent<ActionScheduler>().StartAction(this); // Add notes 
             target = combatTarget.GetComponent<Health>();
-
-            // Debug.Log("Take that you dumb peasant!");
         }
 
         // This resets the target, so that the character does not get stuck on the target
