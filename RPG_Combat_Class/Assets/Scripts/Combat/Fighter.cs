@@ -4,6 +4,8 @@ using UnityEngine;
 using RPG.Movement;
 using RPG.Core;
 
+
+// This script is used by both the player fighter and the AI characters
 namespace RPG.Combat
 {
     public class Fighter : MonoBehaviour, IAction
@@ -57,6 +59,7 @@ namespace RPG.Combat
             }
         }
 
+
         private void TriggerAttack()
         {
             GetComponent<Animator>().ResetTrigger("stopAttack");
@@ -81,13 +84,12 @@ namespace RPG.Combat
         }
 
 
+        // 
         public bool CanAttack(GameObject combatTarget)
         {
             if (combatTarget == null) {return false;}
-
             Health targetToTest = combatTarget.GetComponent<Health>();
             return targetToTest != null && !targetToTest.IsDead();
- 
         }
 
         // Attack the target

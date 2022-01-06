@@ -5,7 +5,7 @@ using RPG.Movement;
 using RPG.Combat;
 using System;
 
-
+// This script is only used by the player character 
 // RPG is simply used to make the namespace unique, could be anything
 namespace RPG.Control
 {
@@ -19,11 +19,9 @@ namespace RPG.Control
         {
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
-            // print("Nothing to do");
         }
 
 
-        // 
         private bool InteractWithCombat()
         {
             //An Array of all raycast hits
@@ -67,7 +65,6 @@ namespace RPG.Control
                 if (Input.GetMouseButton(0))
                 {
                     GetComponent<Mover>().StartMoveAction(hit.point);
-                    // GetComponent<Mover>().MoveTo(hit.point);
                 }
                 return true;  // if it hits something return true
             }
