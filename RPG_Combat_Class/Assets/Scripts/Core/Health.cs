@@ -1,6 +1,8 @@
 using UnityEngine;
+using RPG.Movement;
+using UnityEngine.AI;
 
-namespace RPG.Combat
+namespace RPG.Core
 {
     public class Health : MonoBehaviour 
     {
@@ -17,7 +19,6 @@ namespace RPG.Combat
         public void TakeDamage(float damage)
         {
             healthPoints = Mathf.Max(healthPoints - damage, 0);
-            // print(healthPoints);
 
             if (healthPoints == 0)
             {
@@ -31,6 +32,7 @@ namespace RPG.Combat
                 
             isDead = true;
             GetComponent<Animator>().SetTrigger("die");
+            GetComponent<ActionScheduler>().CancelCurrentAction(); // Stops anything that is running
         }
     }
 }

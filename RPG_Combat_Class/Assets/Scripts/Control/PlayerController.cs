@@ -4,6 +4,7 @@ using UnityEngine;
 using RPG.Movement;
 using RPG.Combat;
 using System;
+using RPG.Core;
 
 // This script is only used by the player character 
 // RPG is simply used to make the namespace unique, could be anything
@@ -14,9 +15,17 @@ namespace RPG.Control
     public class PlayerController : MonoBehaviour
     {
         Fighter fighter;
+        Health health;
+
+        private void Start() 
+        {
+            health = GetComponent<Health>();    
+        }
+
 
         void Update()
         {
+            if (health.IsDead()) return;
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
         }

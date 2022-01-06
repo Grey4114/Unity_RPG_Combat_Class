@@ -18,7 +18,7 @@ namespace RPG.Combat
         
         // bool canAttack = false;
 
-        float timeSinceLastAttack = 0f;
+        float timeSinceLastAttack = Mathf.Infinity;  // Using Infinity makes bool comparison true
 
         private void Update()
         {
@@ -31,7 +31,6 @@ namespace RPG.Combat
             if (target.IsDead()) return;
 
             // Move to the target and stops when in range
-            // if (target != null && !GetIsInRange())
             if (!GetIsInRange())
             {
                 GetComponent<Mover>().MoveTo(target.transform.position);
@@ -111,8 +110,5 @@ namespace RPG.Combat
             GetComponent<Animator>().ResetTrigger("attack");
             GetComponent<Animator>().SetTrigger("stopAttack");
         }
-
-
-
     }
 }

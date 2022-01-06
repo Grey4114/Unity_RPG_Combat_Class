@@ -15,15 +15,17 @@ namespace RPG.Core
         public void StartAction(IAction action)
         {
             if(currentAction == action) return;
-
             if (currentAction != null)
             {
                 currentAction.Cancel();
-                //print("Cancelling " + currentAction);
             }
-            
-            currentAction = action;
-            
+            currentAction = action;  
+        }
+
+        // Cancel player / AI actions
+        public void CancelCurrentAction()
+        {
+            StartAction(null);
         }
     }
 }
