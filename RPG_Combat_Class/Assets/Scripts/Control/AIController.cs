@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Combat;
 using RPG.Core;
+using RPG.Movement;
 
 namespace RPG.Control
 {
@@ -13,6 +14,8 @@ namespace RPG.Control
         Fighter fighter;
         Health health;
         GameObject player;
+        Mover mover;
+        Vector3 guardPosition;
 
 
         private void Start() 
@@ -20,6 +23,9 @@ namespace RPG.Control
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();
             player = GameObject.FindWithTag("Player");
+            mover = GetComponent<Mover>();
+
+            guardPosition = transform.position;
         }
 
 
@@ -33,7 +39,8 @@ namespace RPG.Control
             }
             else
             {
-                fighter.Cancel();
+                // AI returns to their starting postion
+                mover.StartMoveAction(guardPosition);
             }
         }
 
@@ -43,6 +50,14 @@ namespace RPG.Control
         {
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
             return  distanceToPlayer < chaseDistance;
+        }
+
+
+        // Show Gizmos - Called by Unity in the editor
+        private void OnDrawGizmosSelected() 
+        {
+            Gizmos.color = Color.blue; // Pick a pre-set color
+            Gizmos.DrawWireSphere(transform.position, chaseDistance);
         }
     }
 }

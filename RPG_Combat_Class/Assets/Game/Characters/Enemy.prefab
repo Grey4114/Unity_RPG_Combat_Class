@@ -38,7 +38,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75f9af932ac62e84496cc7abafb8d778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseDistance: 3
+  chaseDistance: 5
 --- !u!1001 &2067790225287936026
 PrefabInstance:
   m_ObjectHideFlags: 0
