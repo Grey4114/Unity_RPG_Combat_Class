@@ -14,6 +14,7 @@ namespace RPG.Control
         [SerializeField] float suspicionTime = 3f;
         [SerializeField] PatrolPath patrolPath = null;
         [SerializeField] float wayPointTolerance = 2f;  // Increase is AI's stop following their path
+        [SerializeField] float waypointDwellTime = 3f;        
 
         Fighter fighter;
         Health health;
@@ -23,6 +24,9 @@ namespace RPG.Control
 
         float timeSinceLastSawPlayer = Mathf.Infinity;
         int currentWayPointIndex = 0;
+
+        float timeSinceArrivedAtWaypoint = Mathf.Infinity;
+
 
         private void Start() 
         {
@@ -37,15 +41,14 @@ namespace RPG.Control
 
         private void Update()
         {
-            
-            if(health.IsDead()) return;
-            
+
+            if (health.IsDead()) return;
+
             if (InAttackRangeOfPlayer() && fighter.CanAttack(player))
             {
-                timeSinceLastSawPlayer = 0;
                 AttackBehaviour();
             }
-            else if(timeSinceLastSawPlayer < suspicionTime)
+            else if (timeSinceLastSawPlayer < suspicionTime)
             {
                 SuspicionBehaviour();
             }
@@ -54,25 +57,47 @@ namespace RPG.Control
                 PatrolBehaviour();
             }
 
-            timeSinceLastSawPlayer += Time.deltaTime;
+            UpdateTimers();
+        }
+
+        private void AttackBehaviour()
+        {
+            timeSinceLastSawPlayer = 0;
+            fighter.Attack(player);
+        }
+
+        private void SuspicionBehaviour()
+        {
+            GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
         private void PatrolBehaviour()
         {
             Vector3 nextPosition = guardPosition;
             if (patrolPath != null)
-            {
+            {   
                 if (AtWayPoint())
                 {
+                    timeSinceArrivedAtWaypoint = 0;
                     CycleWayPoint();
                 }
                 nextPosition = GetCurrentWayPoint();
-                
             }
-            // AI returns to their starting postion
-            mover.StartMoveAction(nextPosition);
+
+            if (timeSinceArrivedAtWaypoint > waypointDwellTime)
+            {
+                // AI moves to the next postion
+                mover.StartMoveAction(nextPosition);
+            }
+
+
         }
 
+        private void UpdateTimers()
+        {
+            timeSinceLastSawPlayer += Time.deltaTime;
+            timeSinceArrivedAtWaypoint += Time.deltaTime;
+        }
 
         // Path Patrolling
         private bool AtWayPoint()
@@ -93,31 +118,12 @@ namespace RPG.Control
             return patrolPath.GetWayPoint(currentWayPointIndex);
         }
 
-
-
-
-
-
-        private void SuspicionBehaviour()
-        {
-            // AI Suspicion 
-            // fighter.Cancel();  // My Solution
-            GetComponent<ActionScheduler>().CancelCurrentAction();  // Teacher solution
-        }
-
-        private void AttackBehaviour()
-        {
-            fighter.Attack(player);
-        }
-
-
         // This calculates the distance from the Enemy to the Player
         private bool InAttackRangeOfPlayer()
         {
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
             return  distanceToPlayer < chaseDistance;
         }
-
 
         // Show Gizmos - Called by Unity in the editor
         private void OnDrawGizmosSelected() 
