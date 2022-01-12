@@ -33,7 +33,7 @@ namespace RPG.Combat
             // Move to the target and stops when in range
             if (!GetIsInRange())
             {
-                GetComponent<Mover>().MoveTo(target.transform.position);
+                GetComponent<Mover>().MoveTo(target.transform.position, 1f);
             }
             else
             {

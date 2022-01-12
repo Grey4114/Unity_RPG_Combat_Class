@@ -5,6 +5,7 @@ using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
 using System;
+using UnityEngine.AI;
 
 namespace RPG.Control
 {
@@ -14,13 +15,20 @@ namespace RPG.Control
         [SerializeField] float suspicionTime = 3f;
         [SerializeField] PatrolPath patrolPath = null;
         [SerializeField] float wayPointTolerance = 2f;  // Increase is AI's stop following their path
-        [SerializeField] float waypointDwellTime = 3f;        
+        [SerializeField] float waypointDwellTime = 3f;
+
+
+        [Range(0,1)]        
+        [SerializeField] float patrolSpeedFraction = 0.2f;
+     
 
         Fighter fighter;
         Health health;
         GameObject player;
         Mover mover;
         Vector3 guardPosition;
+
+        NavMeshAgent navMeshAgent;
 
         float timeSinceLastSawPlayer = Mathf.Infinity;
         int currentWayPointIndex = 0;
@@ -34,6 +42,8 @@ namespace RPG.Control
             health = GetComponent<Health>();
             player = GameObject.FindWithTag("Player");
             mover = GetComponent<Mover>();
+
+            navMeshAgent = GetComponent<NavMeshAgent>();
 
             guardPosition = transform.position;
         }
@@ -87,7 +97,7 @@ namespace RPG.Control
             if (timeSinceArrivedAtWaypoint > waypointDwellTime)
             {
                 // AI moves to the next postion
-                mover.StartMoveAction(nextPosition);
+                mover.StartMoveAction(nextPosition, patrolSpeedFraction);
             }
 
 
