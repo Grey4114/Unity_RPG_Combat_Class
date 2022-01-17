@@ -8,10 +8,16 @@ namespace RPG.Cinematics
 
     public class CimematicTrigger : MonoBehaviour
     {
+        bool alreadyTriggered = false;
 
         private void OnTriggerEnter(Collider other) 
         {
-            GetComponent<PlayableDirector>().Play();
+            if (!alreadyTriggered && other.gameObject.tag == "Player")
+            {
+                GetComponent<PlayableDirector>().Play();
+                alreadyTriggered = true;
+            }
+                
         }
 
     }
