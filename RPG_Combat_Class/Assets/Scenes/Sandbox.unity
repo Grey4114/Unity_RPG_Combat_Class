@@ -2123,6 +2123,11 @@ PrefabInstance:
       propertyPath: waypointDwellTime
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7872517584818774047, guid: 4cd6d97c7c874f245a7079e4613860c6,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: abc7a9a5-214c-404e-89d1-29b9a216edb1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd6d97c7c874f245a7079e4613860c6, type: 3}
 --- !u!1 &283686142 stripped
@@ -3624,6 +3629,11 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 6490216101307580808}
+    - target: {fileID: 7872517584818774047, guid: 4cd6d97c7c874f245a7079e4613860c6,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: a1325b89-db1c-434e-9c56-01993381cac3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd6d97c7c874f245a7079e4613860c6, type: 3}
 --- !u!1 &511019297 stripped
@@ -3867,6 +3877,11 @@ PrefabInstance:
         type: 3}
       propertyPath: waypointDwellTime
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7872517584818774047, guid: 4cd6d97c7c874f245a7079e4613860c6,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: 92a02a08-34ae-45b7-a4e1-bc9b0e6250af
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd6d97c7c874f245a7079e4613860c6, type: 3}
@@ -7451,6 +7466,11 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 5210812951910227635}
+    - target: {fileID: 7872517584818774047, guid: 4cd6d97c7c874f245a7079e4613860c6,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: 5d431208-6ff5-42ce-a57a-20045518c3cc
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd6d97c7c874f245a7079e4613860c6, type: 3}
 --- !u!1 &1050227652 stripped
@@ -9214,6 +9234,11 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 3615373896285273243}
+    - target: {fileID: 7872517584818774047, guid: 4cd6d97c7c874f245a7079e4613860c6,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: d441f321-4e75-4ec6-903f-32887dac94a9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd6d97c7c874f245a7079e4613860c6, type: 3}
 --- !u!1 &1293821348
@@ -9400,6 +9425,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 01b2546c969fe814794af634cb4534f4, type: 2}
+    - target: {fileID: 7872517584818774047, guid: 4cd6d97c7c874f245a7079e4613860c6,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: ee3d5377-12f0-4b48-84ac-82504698b6e3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd6d97c7c874f245a7079e4613860c6, type: 3}
 --- !u!1 &1303421474 stripped
@@ -12167,6 +12197,11 @@ PrefabInstance:
       propertyPath: waypointDwellTime
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7872517584818774047, guid: 4cd6d97c7c874f245a7079e4613860c6,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: c7f600db-e23f-418d-83ab-b3786ae4df5e
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd6d97c7c874f245a7079e4613860c6, type: 3}
 --- !u!4 &1717733717 stripped
@@ -13550,6 +13585,11 @@ PrefabInstance:
       propertyPath: waypointDwellTime
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7872517584818774047, guid: 4cd6d97c7c874f245a7079e4613860c6,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: 8a1e0b77-6e1a-4709-84e8-08a5e83c0acc
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd6d97c7c874f245a7079e4613860c6, type: 3}
 --- !u!4 &1985442245 stripped
@@ -14641,6 +14681,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7017933185051562944, guid: baabcb5816283534a83c84433eff9670,
         type: 3}
+    - target: {fileID: 7017773879093971740, guid: f588bf7605af31d44821e3ddbbb7a4f3,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: 56f85845-346b-4b5c-b765-48b2c5997a73
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f588bf7605af31d44821e3ddbbb7a4f3, type: 3}
 --- !u!1 &3615373895097393988

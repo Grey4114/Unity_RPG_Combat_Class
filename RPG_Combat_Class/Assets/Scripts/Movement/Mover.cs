@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using RPG.Core;
 using UnityEngine;
 using UnityEngine.AI;
+using RPG.Saving;
 
 
 namespace RPG.Movement
 {
-    // NOTE - Cnnot inherit from more then 1 class, 
-    // but can inherit from as many interfaces (ie. IAction) as needed
-    public class Mover : MonoBehaviour, IAction
+    // NOTE - Cannot inherit from more then 1 class, 
+    // but can inherit from as many interfaces (ie. IAction or ISavable) as needed
+    public class Mover : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField] Transform target;
         [SerializeField] float maxSpeed = 6f;
@@ -21,6 +22,7 @@ namespace RPG.Movement
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
             health = GetComponent<Health>();
+
         }
 
         void Update()
@@ -59,6 +61,24 @@ namespace RPG.Movement
             float speed = localVelocity.z;  // Forward motion
             GetComponent<Animator>().SetFloat("ForwardSpeed", speed);
 
+        }
+
+
+        // ISavable Interface - Can capture/input any object info to the save file
+        public object CaptureState()
+        {
+            // Saves the position of the character
+            return new SerializableVector3(transform.position);
+        }
+
+        // ISavable Interface - Can restore/pull/load any object info from the save file
+        // This is called after Awake() but before Start()
+        public void RestoreState(object state)
+        {
+            SerializableVector3 position = (SerializableVector3)state;
+            GetComponent<NavMeshAgent>().enabled = false;   // Disable character movement
+            transform.position = position.ToVector();   // Get position of character
+            GetComponent<NavMeshAgent>().enabled = true;    // // Enable character movement
         }
     }
 }
