@@ -64,21 +64,64 @@ namespace RPG.Movement
         }
 
 
+        // 3rd Method - Multiple parameters - Allows multiple fields to be added
+        [System.Serializable]
+        struct MoverSaveData
+        {
+            public SerializableVector3 position;
+            public SerializableVector3 rotation;
+        }
+
+
         // ISavable Interface - Can capture/input any object info to the save file
         public object CaptureState()
-        {
+        {    
+            // 1st Method - single parameter
             // Saves the position of the character
-            return new SerializableVector3(transform.position);
+            //return new SerializableVector3(transform.position);
+
+
+            // 2nd Method - Multiple parameters - Allows multiple fields to be added
+            // Createing a dictionary to save multiple parameters
+            // Dictionary<string, object> data = new Dictionary<string, object>();
+            // data["position"] = new SerializableVector3(transform.position);
+            // data["rotation"] = new SerializableVector3(transform.eulerAngles);
+            // return data;
+
+            // 3rd Method - Multiple parameters
+            MoverSaveData data = new MoverSaveData();
+            data.position = new SerializableVector3(transform.position);
+            data.rotation = new SerializableVector3(transform.eulerAngles);
+            return data;
+
         }
 
         // ISavable Interface - Can restore/pull/load any object info from the save file
         // This is called after Awake() but before Start()
         public void RestoreState(object state)
         {
-            SerializableVector3 position = (SerializableVector3)state;
-            GetComponent<NavMeshAgent>().enabled = false;   // Disable character movement
-            transform.position = position.ToVector();   // Get position of character
-            GetComponent<NavMeshAgent>().enabled = true;    // // Enable character movement
+            // 1st Method - single Parameter
+            // SerializableVector3 position = (SerializableVector3)state;
+            // GetComponent<NavMeshAgent>().enabled = false;   // Disable character movement
+            // transform.position = position.ToVector();   // Get position of character
+            // GetComponent<NavMeshAgent>().enabled = true;    // // Enable character movement
+        
+
+            // 2nd Method - Multiple parameters
+            // Dictionary<string, object> data = (Dictionary<string, object>)state;
+            // GetComponent<NavMeshAgent>().enabled = false;   
+            // transform.position = ((SerializableVector3)data["position"]).ToVector();
+            // transform.eulerAngles = ((SerializableVector3)data["rotation"]).ToVector();    
+            // GetComponent<NavMeshAgent>().enabled = true; 
+
+
+            // 3rd Method - Multiple parameters
+            MoverSaveData data = (MoverSaveData)state;
+            GetComponent<NavMeshAgent>().enabled = false;  
+            transform.position = data.position.ToVector();
+            transform.eulerAngles = data.rotation.ToVector();  
+            GetComponent<NavMeshAgent>().enabled = true;  
+        
         }
     }
 }
