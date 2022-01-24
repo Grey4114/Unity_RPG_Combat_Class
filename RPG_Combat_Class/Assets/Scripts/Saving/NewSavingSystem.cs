@@ -20,14 +20,6 @@ namespace RPG.Saving
             string path = GetPathFromSaveFile(saveFile);
             print("Saving to " + path);
 
-            // Method 1 - Open and Close
-            // Writing a byte array from a string - this is prone to not closing the stream when an error occurs 
-            // FileStream stream = File.Open(path, FileMode.Create);
-            // byte[] bytes = Encoding.UTF8.GetBytes("!Hola Mundo!");
-            // stream.Write(bytes, 0, bytes.Length);
-            // stream.Close();  // Must have this after finished adding/removing from file
-
-
             // Working with Using
             // Once the Using statement is exited then the stream in closed automatically
             using (FileStream stream = File.Open(path, FileMode.Create))
@@ -37,10 +29,20 @@ namespace RPG.Saving
             }
         }
 
+
         //Loads all of the info to the file
         public void Load(string saveFile)
         {
-            print("Loading from " + GetPathFromSaveFile(saveFile));
+            string path = GetPathFromSaveFile(saveFile);
+            print("Loading from " + path);
+
+            using (FileStream stream = new FileStream(path, FileMode.Open))
+            {
+                byte[] buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, buffer.Length);
+                print(Encoding.UTF8.GetString(buffer));
+            }
+
         }
 
 
