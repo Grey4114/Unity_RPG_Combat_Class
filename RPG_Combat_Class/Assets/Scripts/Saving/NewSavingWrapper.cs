@@ -7,7 +7,7 @@ namespace RPG.Saving
     // This script activates the saving/loading of info based on key presses
     public class NewSavingWrapper : MonoBehaviour 
     {
-        const string defaultSaveFile = "saveNew";
+        const string defaultSaveFile = "newSave";
 
 
         public void Update()
