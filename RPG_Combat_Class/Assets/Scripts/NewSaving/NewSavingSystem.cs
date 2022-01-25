@@ -8,7 +8,7 @@ using UnityEngine;
 
 
 // This script controls all of the saving/loading for the save files
-namespace RPG.Saving
+namespace RPG.NewSaving
 {
     public class NewSavingSystem : MonoBehaviour 
     {
@@ -17,21 +17,17 @@ namespace RPG.Saving
         public void Save(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);
+            print("Saving to " + path);
 
             // Working with Using
             // Once the Using statement is exited then the stream in closed automatically
             using (FileStream stream = File.Open(path, FileMode.Create))
             {
-                // Manual Serialization 
-                // Transform playerTransform = GetPlayerTransform();  // get player position
-                // byte[] buffer = SerializeVector(playerTransform.position); // convert to byte array
-                // stream.Write(buffer, 0, buffer.Length); // write to save file
-
-                // Using Unity's Built-in Serialization
+                // Using Unity's Built-in Serialization - BinaryFormatter
                 Transform playerTransform = GetPlayerTransform();  // get player position
                 BinaryFormatter formatter = new BinaryFormatter();  // This initializes the formatter
-                formatter.Serialize(stream, playerTransform.position);  // Converts to binary              
-                
+                NewSerializableVector3 position = new NewSerializableVector3(playerTransform.position); // serailizes the vector 3
+                formatter.Serialize(stream, position);  // Converts to binary               
             }
         }
 
@@ -47,10 +43,11 @@ namespace RPG.Saving
             using (FileStream stream = new FileStream(path, FileMode.Open))
             {
 
-                byte[] buffer = new byte[stream.Length];  // create empty byte array based on save file size 
-                stream.Read(buffer, 0, buffer.Length);  // fill the buffer with the save file info
-                Transform playerTransform = GetPlayerTransform();  // gets players current position
-                playerTransform.position = DeserializeVector(buffer);  // Converts to a vector3 & loads new position
+                Transform playerTransform = GetPlayerTransform();  
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Deserialize(stream);
+                NewSerializableVector3 position = (NewSerializableVector3)formatter.Deserialize(stream);
+                playerTransform.position = position.NewToVector3();
                 
             }
 

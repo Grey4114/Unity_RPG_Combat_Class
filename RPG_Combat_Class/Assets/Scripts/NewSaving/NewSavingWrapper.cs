@@ -1,8 +1,6 @@
 using UnityEngine;
 
-
-
-namespace RPG.Saving
+namespace RPG.NewSaving
 {
     // This script activates the saving/loading of info based on key presses
     public class NewSavingWrapper : MonoBehaviour 

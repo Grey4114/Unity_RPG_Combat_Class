@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5643487805856976558}
-  - component: {fileID: 6360146320236371881}
-  - component: {fileID: 5279815882294842768}
+  - component: {fileID: 493678416085590927}
+  - component: {fileID: 1522910689536170248}
   m_Layer: 0
   m_Name: NewSavingSystem
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6360146320236371881
+--- !u!114 &493678416085590927
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,10 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3385195698910555162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a62f5798e0667a49849bd9a75c040f1, type: 3}
+  m_Script: {fileID: 11500000, guid: e6e418d7cc3846348a8c836ecf373aac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5279815882294842768
+--- !u!114 &1522910689536170248
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53,6 +53,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3385195698910555162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e95d2f34d7a5bdb418a8c7d615edc77e, type: 3}
+  m_Script: {fileID: 11500000, guid: bc410ddf934ba374ab3e9dc33e74e59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
