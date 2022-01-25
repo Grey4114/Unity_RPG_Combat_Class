@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using UnityEngine;
 
@@ -12,21 +13,25 @@ namespace RPG.Saving
     public class NewSavingSystem : MonoBehaviour 
     {
 
-
-
         // Saves the info to the file
         public void Save(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);
-            print("Saving to " + path);
 
             // Working with Using
             // Once the Using statement is exited then the stream in closed automatically
             using (FileStream stream = File.Open(path, FileMode.Create))
             {
+                // Manual Serialization 
+                // Transform playerTransform = GetPlayerTransform();  // get player position
+                // byte[] buffer = SerializeVector(playerTransform.position); // convert to byte array
+                // stream.Write(buffer, 0, buffer.Length); // write to save file
+
+                // Using Unity's Built-in Serialization
                 Transform playerTransform = GetPlayerTransform();  // get player position
-                byte[] buffer = SerializeVector(playerTransform.position); // convert to byte array
-                stream.Write(buffer, 0, buffer.Length); // write to save file
+                BinaryFormatter formatter = new BinaryFormatter();  // This initializes the formatter
+                formatter.Serialize(stream, playerTransform.position);  // Converts to binary              
+                
             }
         }
 
