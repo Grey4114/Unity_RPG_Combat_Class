@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using UnityEngine;
 
+// Object - Attached to the NewSavingSystem object, which is a child of the PersistanObjects prefab
 
 // This script controls all of the saving/loading for the save files
 namespace RPG.NewSaving
@@ -24,12 +25,12 @@ namespace RPG.NewSaving
             using (FileStream stream = File.Open(path, FileMode.Create))
             {
                 // Using Unity's Built-in Serialization - BinaryFormatter
-                Transform playerTransform = GetPlayerTransform();  // get player position
                 BinaryFormatter formatter = new BinaryFormatter();  // This initializes the formatter
-                NewSerializableVector3 position = new NewSerializableVector3(playerTransform.position); // serailizes the vector 3
-                formatter.Serialize(stream, position);  // Converts to binary               
+                formatter.Serialize(stream, CaptureState());  // Capture the objects state & Converts to binary               
             }
         }
+
+
 
 
 
@@ -42,44 +43,42 @@ namespace RPG.NewSaving
 
             using (FileStream stream = new FileStream(path, FileMode.Open))
             {
+                BinaryFormatter formatter = new BinaryFormatter(); // Initiallize the formatter               
+                RestoreState(formatter.Deserialize(stream));  // Deserialize the stream & convert to 3 float positions               
+            }
+        }
 
-                Transform playerTransform = GetPlayerTransform();  
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Deserialize(stream);
-                NewSerializableVector3 position = (NewSerializableVector3)formatter.Deserialize(stream);
-                playerTransform.position = position.NewToVector3();
-                
+
+
+        // Create a dictionary, captures each objects state and saves it with a unique identifier 
+        private object CaptureState()
+        {
+            Dictionary<string, object> state = new Dictionary<string, object>();  // Sets up a dictionary
+
+            // Finds all of the objects that are saveable
+            foreach(NewSaveableEntity saveable in FindObjectsOfType<NewSaveableEntity>())
+            {
+                // Key = Identifier & Value = the objects' serialized states
+                // This fills the dictionay with the state of each object
+                state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
+            }
+            return state;
+        }
+
+        // Fill a dictionary with the save files info
+        // Find each object and restore its state based on its unique identifier
+        private void RestoreState(object state)
+        {
+            // Create an dictionary and fill with the info from the state object
+            Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
+
+            foreach(NewSaveableEntity saveable in FindObjectsOfType<NewSaveableEntity>())
+            {
+                // fore each object Restore its state
+                saveable.RestoreState(stateDict[saveable.GetUniqueIdentifier()]);
             }
 
         }
-
-
-        // Get the players vectore3 position
-        private Transform GetPlayerTransform()
-        {
-            return GameObject.FindWithTag("Player").transform;
-        }
-
-        // Convert the vector3 into an array of bytes
-        private byte[] SerializeVector(Vector3 vector)
-        {
-            byte[] vectorBytes = new byte[3 * 4];
-            BitConverter.GetBytes(vector.x).CopyTo(vectorBytes,0);
-            BitConverter.GetBytes(vector.y).CopyTo(vectorBytes,4);
-            BitConverter.GetBytes(vector.z).CopyTo(vectorBytes,8);
-            return vectorBytes;
-        }
-
-        // Convert the array of bytes into a vector3
-        private Vector3 DeserializeVector(byte[] buffer)
-        {
-            Vector3 result = new Vector3();
-            result.x = BitConverter.ToSingle(buffer,0);
-            result.y = BitConverter.ToSingle(buffer,4);
-            result.z = BitConverter.ToSingle(buffer,8);
-            return result;
-        }
-
 
         // Returns the systems current default path/location for save files
         private string GetPathFromSaveFile(string saveFile)

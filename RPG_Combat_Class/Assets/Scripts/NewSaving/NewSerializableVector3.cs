@@ -1,6 +1,9 @@
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
+// Object - Not attached to an object
+// Script - Used by NewSavingSystem.cs
+
 namespace RPG.NewSaving
 {
 
