@@ -30,11 +30,6 @@ namespace RPG.NewSaving
             }
         }
 
-
-
-
-
-
         //Loads all of the info to the file
         public void Load(string saveFile)
         {
