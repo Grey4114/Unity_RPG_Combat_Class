@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -10,11 +11,39 @@ using UnityEngine;
 namespace RPG.NewSaving
 {
 
+    [ExecuteAlways]
     public class NewSaveableEntity : MonoBehaviour 
     {
+        // Creates a random unique string id
+        // System.Guid.NewGuid().ToString() - This is a builting unity function
+        [SerializeField] string uniqueIdentifier = "";
+
+
+# if UNITY_EDITOR       // This allows for this code to be built without issue   
+        private void Update() 
+        {
+            if (Application.IsPlaying(gameObject)) return;
+
+            if (string.IsNullOrEmpty(gameObject.scene.path)) return;
+
+            // this = the oject the script is attached to
+            SerializedObject serializedObject = new SerializedObject(this);
+            SerializedProperty property = serializedObject.FindProperty("uniqueIdentifier");
+
+
+            // The systems generates a unique ID for the object if the field is blank
+            if (string.IsNullOrEmpty(property.stringValue))
+            {
+                property.stringValue = System.Guid.NewGuid().ToString(); // Generates the ID
+                serializedObject.ApplyModifiedProperties();  // Tells Unity that the field has been modified
+
+            }
+        }
+#endif
+
         public string GetUniqueIdentifier()
         {
-            return "";
+            return uniqueIdentifier;
         }  
 
         public object CaptureState()
@@ -27,5 +56,6 @@ namespace RPG.NewSaving
         {
             print("Restoring state for " + GetUniqueIdentifier());
         }
+
     }
 }
