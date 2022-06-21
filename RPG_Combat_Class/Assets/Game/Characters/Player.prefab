@@ -98,6 +98,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8889557674808439873, guid: 458b6406e939c7b44b2d6a8f2c0aac61,
+        type: 3}
+      propertyPath: healthPoints
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 6697181773687084321, guid: 458b6406e939c7b44b2d6a8f2c0aac61,
         type: 3}
       propertyPath: timeBetweenAttacks
@@ -108,12 +113,17 @@ PrefabInstance:
       propertyPath: weaponDamage
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 8889557674808439873, guid: 458b6406e939c7b44b2d6a8f2c0aac61,
+    - target: {fileID: 8210776019077715973, guid: 458b6406e939c7b44b2d6a8f2c0aac61,
         type: 3}
-      propertyPath: healthPoints
-      value: 200
+      propertyPath: uniqueIdentifier
+      value: player
       objectReference: {fileID: 0}
     - target: {fileID: 8210776019077715973, guid: 458b6406e939c7b44b2d6a8f2c0aac61,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6939306989424750661, guid: 458b6406e939c7b44b2d6a8f2c0aac61,
         type: 3}
       propertyPath: uniqueIdentifier
       value: player
