@@ -13,6 +13,7 @@ using UnityEngine.AI;
 namespace RPG.NewSaving
 {
 
+
     [ExecuteAlways]
     public class NewSaveableEntity : MonoBehaviour 
     {

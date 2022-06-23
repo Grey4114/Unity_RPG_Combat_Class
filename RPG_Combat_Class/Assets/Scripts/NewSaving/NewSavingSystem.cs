@@ -17,6 +17,35 @@ namespace RPG.NewSaving
         // Saves the info to the file
         public void Save(string saveFile)
         {
+            SaveFile(saveFile, CaptureState());
+        }
+
+
+        //Loads all of the info to the file
+        public void Load(string saveFile)
+        {
+            RestoreState(LoadFile(saveFile));
+        }
+
+
+
+        private Dictionary<string, object> LoadFile(string saveFile)
+        {
+            string path = GetPathFromSaveFile(saveFile);
+            print("Loading from " + path);
+
+            using (FileStream stream = new FileStream(path, FileMode.Open))
+            {
+                BinaryFormatter formatter = new BinaryFormatter(); // Initiallize the formatter               
+                //RestoreState(formatter.Deserialize(stream));  // Deserialize the stream & convert to 3 float positions
+                return (Dictionary<string, object>) formatter.Deserialize(stream); 
+                               
+
+            }
+        }
+
+        private void SaveFile(string saveFile, object state)
+        {
             string path = GetPathFromSaveFile(saveFile);
             print("Saving to " + path);
 
@@ -26,29 +55,17 @@ namespace RPG.NewSaving
             {
                 // Using Unity's Built-in Serialization - BinaryFormatter
                 BinaryFormatter formatter = new BinaryFormatter();  // This initializes the formatter
-                formatter.Serialize(stream, CaptureState());  // Capture the objects state & Converts to binary               
-            }
-        }
-
-        //Loads all of the info to the file
-        public void Load(string saveFile)
-        {
-            string path = GetPathFromSaveFile(saveFile);
-            print("Loading from " + path);
-
-            using (FileStream stream = new FileStream(path, FileMode.Open))
-            {
-                BinaryFormatter formatter = new BinaryFormatter(); // Initiallize the formatter               
-                RestoreState(formatter.Deserialize(stream));  // Deserialize the stream & convert to 3 float positions               
+                formatter.Serialize(stream, state);  // Get the objects state & Converts to binary               
             }
         }
 
 
 
         // Create a dictionary, captures each objects state and saves it with a unique identifier 
-        private object CaptureState()
+        private Dictionary<string, object> CaptureState()
         {
-            Dictionary<string, object> state = new Dictionary<string, object>();  // Sets up a dictionary
+            // Sets up a dictionary
+            Dictionary<string, object> state = new Dictionary<string, object>();  
 
             // Finds all of the objects that are saveable
             foreach(NewSaveableEntity saveable in FindObjectsOfType<NewSaveableEntity>())
@@ -62,15 +79,15 @@ namespace RPG.NewSaving
 
         // Fill a dictionary with the save files info
         // Find each object and restore its state based on its unique identifier
-        private void RestoreState(object state)
+        private void RestoreState(Dictionary<string, object> state)
         {
             // Create an dictionary and fill with the info from the state object
-            Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
+            // Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
 
             foreach(NewSaveableEntity saveable in FindObjectsOfType<NewSaveableEntity>())
             {
                 // fore each object Restore its state
-                saveable.RestoreState(stateDict[saveable.GetUniqueIdentifier()]);
+                saveable.RestoreState(state[saveable.GetUniqueIdentifier()]);
             }
 
         }
