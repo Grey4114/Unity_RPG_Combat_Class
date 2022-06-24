@@ -14,7 +14,6 @@ using UnityEngine.AI;
 namespace RPG.NewSaving
 {
 
-
     [ExecuteAlways]
     public class NewSaveableEntity : MonoBehaviour 
     {
@@ -54,29 +53,28 @@ namespace RPG.NewSaving
         // Captures the current state of the object to be saved
         public object CaptureState()
         {
-            return new NewSerializableVector3(transform.position);
+            Dictionary<string, object> state = new Dictionary<string, object>();
+            foreach (NewISaveable saveable in GetComponents<NewISaveable>())
+            {
+                state[saveable.GetType().ToString()] = saveable.CaptureState();
+            }
+            return state;
         }
 
         // Restores the object to a previous state
         public void RestoreState(object state)
         {
-            // pull the vector3 state and saves to new vector3
-            NewSerializableVector3 position = (NewSerializableVector3)state;
-            
-            // Disables NavMeshAgent
-            GetComponent<NavMeshAgent>().enabled = false;
+            // Use a cast to to create a dictionary
+            Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
 
-            // Moves character to new position
-            transform.position = position.NewToVector3();
-
-            // Enables NavMeshAgent
-            GetComponent<NavMeshAgent>().enabled = true;
-
-            // Cancels the characters current action
-            GetComponent<ActionScheduler>().CancelCurrentAction();
-
-            
-
+            foreach (NewISaveable saveable in GetComponents<NewISaveable>())
+            {
+                string typeString = saveable.GetType().ToString();
+                if (stateDict.ContainsKey(typeString))
+                {
+                    saveable.RestoreState(stateDict[typeString]);
+                }
+            }
         }
 
     }

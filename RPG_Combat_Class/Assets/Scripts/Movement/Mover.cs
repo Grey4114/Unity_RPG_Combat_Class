@@ -11,7 +11,7 @@ namespace RPG.Movement
 {
     // NOTE - Cannot inherit from more then 1 class, 
     // but can inherit from as many interfaces (ie. IAction or ISavable) as needed
-    public class Mover : MonoBehaviour, IAction  //, ISaveable
+    public class Mover : MonoBehaviour, IAction, NewISaveable  //, ISaveable
     {
         [SerializeField] Transform target;
         [SerializeField] float maxSpeed = 6f;
@@ -81,19 +81,25 @@ namespace RPG.Movement
         {
             // OLD Save
             // SerializableVector3 position = (SerializableVector3)state;
-
-            // NEW Save
-            NewSerializableVector3 position = (NewSerializableVector3)state;
-            GetComponent<NavMeshAgent>().enabled = false;   // Disable character movement
-
-            // OLD Save
             // transform.position = position.ToVector();   // Get position of character
 
-            // NEW Save
-            transform.position = position.NewToVector3();   // Get position of character
-            GetComponent<NavMeshAgent>().enabled = true;    // // Enable character movement
-        
-        
+            // NEWSave
+            // pull the vector3 state and saves to new vector3
+            NewSerializableVector3 position = (NewSerializableVector3)state;
+            
+            // Disables NavMeshAgent
+            GetComponent<NavMeshAgent>().enabled = false;
+
+            // Moves character to new position
+            transform.position = position.NewToVector3();
+
+            // Enables NavMeshAgent
+            GetComponent<NavMeshAgent>().enabled = true;
+
+            // Cancels the characters current action
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+
+
         }
     }
 }
