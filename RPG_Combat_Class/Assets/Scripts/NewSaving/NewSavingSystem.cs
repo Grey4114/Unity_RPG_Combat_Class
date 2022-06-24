@@ -57,7 +57,7 @@ namespace RPG.NewSaving
         private void SaveFile(string saveFile, object state)
         {
             string path = GetPathFromSaveFile(saveFile);
-            print("Saving to " + path);
+            // print("Saving to " + path);
 
             // Working with Using
             // Once the Using statement is exited then the stream in closed automatically

@@ -9,20 +9,37 @@ namespace RPG.NewSaving
     {
         const string defaultSaveFile = "newSave";
 
+        private void Start() 
+        {
+            
+        }
 
         public void Update()
         {
             if (Input.GetKeyDown(KeyCode.K))
             {
-                GetComponent<NewSavingSystem>().Load(defaultSaveFile);
+                // Note - Teacher is using Save() as methode name
+                NewSave();
             }
 
             if (Input.GetKeyDown(KeyCode.A))
             {
-                GetComponent<NewSavingSystem>().Save(defaultSaveFile);
+                // Note - Teacher is using Load() as methode name
+                NewLoad();
             }
-            
+
         }
 
+        // Note - Teacher is using Load() as methode name
+        public void NewLoad()
+        {
+            GetComponent<NewSavingSystem>().Save(defaultSaveFile);
+        }
+
+        // Note - Teacher is using Save() as methode name
+        public void NewSave()
+        {
+            GetComponent<NewSavingSystem>().Load(defaultSaveFile);
+        }
     }
 }

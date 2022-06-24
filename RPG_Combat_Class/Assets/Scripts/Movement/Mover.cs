@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using RPG.Core;
 using UnityEngine;
 using UnityEngine.AI;
-using RPG.Saving;
+// using RPG.Saving;
+using RPG.NewSaving;
 
 
 namespace RPG.Movement
 {
     // NOTE - Cannot inherit from more then 1 class, 
     // but can inherit from as many interfaces (ie. IAction or ISavable) as needed
-    public class Mover : MonoBehaviour, IAction, ISaveable
+    public class Mover : MonoBehaviour, IAction  //, ISaveable
     {
         [SerializeField] Transform target;
         [SerializeField] float maxSpeed = 6f;
@@ -67,17 +68,29 @@ namespace RPG.Movement
         // ISavable Interface - Can capture/input any object info to the save file
         public object CaptureState()
         {    
-            // Saves the position of the character
-            return new SerializableVector3(transform.position);
+            // OLD Saves the position of the character
+            // return new SerializableVector3(transform.position);
+
+            // New Save the position of the character
+            return new NewSerializableVector3(transform.position);
         }
 
         // ISavable Interface - Can restore/pull/load any object info from the save file
         // This is called after Awake() but before Start()
         public void RestoreState(object state)
         {
-            SerializableVector3 position = (SerializableVector3)state;
+            // OLD Save
+            // SerializableVector3 position = (SerializableVector3)state;
+
+            // NEW Save
+            NewSerializableVector3 position = (NewSerializableVector3)state;
             GetComponent<NavMeshAgent>().enabled = false;   // Disable character movement
-            transform.position = position.ToVector();   // Get position of character
+
+            // OLD Save
+            // transform.position = position.ToVector();   // Get position of character
+
+            // NEW Save
+            transform.position = position.NewToVector3();   // Get position of character
             GetComponent<NavMeshAgent>().enabled = true;    // // Enable character movement
         
         

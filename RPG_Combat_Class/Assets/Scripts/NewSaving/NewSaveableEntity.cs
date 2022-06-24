@@ -69,11 +69,12 @@ namespace RPG.NewSaving
             // Moves character to new position
             transform.position = position.NewToVector3();
 
+            // Enables NavMeshAgent
+            GetComponent<NavMeshAgent>().enabled = true;
+
             // Cancels the characters current action
             GetComponent<ActionScheduler>().CancelCurrentAction();
 
-            // Enables NavMeshAgent
-            GetComponent<NavMeshAgent>().enabled = true;
             
 
         }

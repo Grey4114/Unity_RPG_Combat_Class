@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
-using RPG.Saving;
+// using RPG.Saving;
+using RPG.NewSaving;
 
 namespace RPG.SceneManagement
 {
@@ -51,20 +52,30 @@ namespace RPG.SceneManagement
 
             yield return fader.FadeOut(fadeOutTime);
 
-            // Save current level info
-            SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-            wrapper.Save();
+            // OLD Save current level info
+            // SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+            //wrapper.Save();
+
+            // New Save current level info
+            NewSavingWrapper savingWrapper = FindObjectOfType<NewSavingWrapper>();
+            savingWrapper.NewSave();
 
             yield return SceneManager.LoadSceneAsync(sceneToLoad);
 
-            // Load last level info
-            wrapper.Load();
+            // Old Load last level info
+            // wrapper.Load();
+
+            // NEW Load last level info
+            savingWrapper.NewLoad();
             
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
 
-            // Save new level info
-            wrapper.Save();
+            // OLD Save new level info
+            // wrapper.Save();
+
+            // OLD Save new level info
+            savingWrapper.NewSave();
 
             yield return new WaitForSeconds(fadeWaitTime);
             yield return fader.FadeIn(fadeInTime);
@@ -75,9 +86,6 @@ namespace RPG.SceneManagement
         private void UpdatePlayer(Portal otherPortal)
         {
             GameObject player = GameObject.FindWithTag("Player");
-            // player.GetComponent<NavMeshAgent>().Warp(otherPortal.spawnPoint.position);
-            // player.transform.rotation = otherPortal.spawnPoint.rotation;
-
             player.GetComponent<NavMeshAgent>().enabled = false;
             player.transform.position = otherPortal.spawnPoint.position;
             player.transform.rotation = otherPortal.spawnPoint.rotation;
