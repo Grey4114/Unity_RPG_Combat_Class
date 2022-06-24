@@ -7,7 +7,8 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-// Object - Attached to the character prefab, thus it is added to both the player and enemy prefabs
+// Object - Attached to the character prefab, thus it is added to both the player 
+// and enemy prefabs
 
 // This saves the info for each specific character that the script is attched to
 namespace RPG.NewSaving
@@ -53,9 +54,6 @@ namespace RPG.NewSaving
         // Captures the current state of the object to be saved
         public object CaptureState()
         {
-            // print("Capturing state for " + GetUniqueIdentifier());
-            // return null;
-
             return new NewSerializableVector3(transform.position);
         }
 

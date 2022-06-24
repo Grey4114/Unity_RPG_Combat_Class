@@ -14,10 +14,17 @@ namespace RPG.NewSaving
     public class NewSavingSystem : MonoBehaviour 
     {
 
-        // Saves the info to the file
+        // Saves the new position info to the savefile
         public void Save(string saveFile)
         {
-            SaveFile(saveFile, CaptureState());
+            // Load the current save file
+            Dictionary<string, object> state = LoadFile(saveFile);
+
+            // Captures the new state of the objects and write that info to the state object
+            CaptureState(state);
+
+            // Saves the positions to the save file 
+            SaveFile(saveFile, state);   
         }
 
 
@@ -28,19 +35,22 @@ namespace RPG.NewSaving
         }
 
 
-
         private Dictionary<string, object> LoadFile(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);
-            print("Loading from " + path);
+            
+            // Check to see if file does not exist
+            if (!File.Exists(path))
+            {
+                // return a new dictonary if there is no file
+                return new Dictionary<string, object>();
+            }
 
             using (FileStream stream = new FileStream(path, FileMode.Open))
             {
                 BinaryFormatter formatter = new BinaryFormatter(); // Initiallize the formatter               
                 //RestoreState(formatter.Deserialize(stream));  // Deserialize the stream & convert to 3 float positions
-                return (Dictionary<string, object>) formatter.Deserialize(stream); 
-                               
-
+                return (Dictionary<string, object>)formatter.Deserialize(stream); 
             }
         }
 
@@ -62,10 +72,10 @@ namespace RPG.NewSaving
 
 
         // Create a dictionary, captures each objects state and saves it with a unique identifier 
-        private Dictionary<string, object> CaptureState()
+        private void CaptureState(Dictionary<string, object> state)
         {
             // Sets up a dictionary
-            Dictionary<string, object> state = new Dictionary<string, object>();  
+            // Dictionary<string, object> state = new Dictionary<string, object>();  
 
             // Finds all of the objects that are saveable
             foreach(NewSaveableEntity saveable in FindObjectsOfType<NewSaveableEntity>())
@@ -74,7 +84,7 @@ namespace RPG.NewSaving
                 // This fills the dictionay with the state of each object
                 state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
             }
-            return state;
+            // return state;
         }
 
         // Fill a dictionary with the save files info
@@ -86,8 +96,15 @@ namespace RPG.NewSaving
 
             foreach(NewSaveableEntity saveable in FindObjectsOfType<NewSaveableEntity>())
             {
-                // fore each object Restore its state
-                saveable.RestoreState(state[saveable.GetUniqueIdentifier()]);
+                // for each object Restore its state
+                string id = saveable.GetUniqueIdentifier();
+
+                // Check to see if there is a file, 
+                // by checking if the dictionary contains a key
+                if (state.ContainsKey(id))
+                {
+                    saveable.RestoreState(state[id]);
+                }
             }
 
         }
