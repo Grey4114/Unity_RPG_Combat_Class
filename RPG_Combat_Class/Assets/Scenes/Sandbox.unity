@@ -9415,6 +9415,11 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 5b2edf7d-f8b8-4f0a-b702-096df6b892ae
       objectReference: {fileID: 0}
+    - target: {fileID: 9006947130568591455, guid: 4cd6d97c7c874f245a7079e4613860c6,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: c815d82a-dad2-4f33-ba01-278c01db9dd3
+      objectReference: {fileID: 0}
     - target: {fileID: 4630666982425439547, guid: 4cd6d97c7c874f245a7079e4613860c6,
         type: 3}
       propertyPath: weaponDamage
@@ -9455,11 +9460,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 01b2546c969fe814794af634cb4534f4, type: 2}
-    - target: {fileID: 9006947130568591455, guid: 4cd6d97c7c874f245a7079e4613860c6,
-        type: 3}
-      propertyPath: uniqueIdentifier
-      value: c815d82a-dad2-4f33-ba01-278c01db9dd3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd6d97c7c874f245a7079e4613860c6, type: 3}
 --- !u!1 &1303421474 stripped
@@ -14724,12 +14724,12 @@ PrefabInstance:
     - target: {fileID: 7017773879093971740, guid: f588bf7605af31d44821e3ddbbb7a4f3,
         type: 3}
       propertyPath: uniqueIdentifier
-      value: 2b823bce-b6f0-42a4-81e6-83d4b7198d15
+      value: player
       objectReference: {fileID: 0}
     - target: {fileID: 8132361356210414428, guid: f588bf7605af31d44821e3ddbbb7a4f3,
         type: 3}
       propertyPath: uniqueIdentifier
-      value: 92175327-ef37-4e8f-a7d1-511eb1f2d0f7
+      value: player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f588bf7605af31d44821e3ddbbb7a4f3, type: 3}

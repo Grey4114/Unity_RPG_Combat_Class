@@ -20,6 +20,8 @@ namespace RPG.NewSaving
         // Creates a random unique string id
         // System.Guid.NewGuid().ToString() - This is a builtin unity function
         [SerializeField] string uniqueIdentifier = "";
+        static Dictionary<string, NewSaveableEntity> globalLookup = new Dictionary<string, NewSaveableEntity>();
+
 
 
 // This allows for this code to be built without issue 
@@ -36,14 +38,47 @@ namespace RPG.NewSaving
 
 
             // The systems generates a unique ID for the object if the field is blank
-            if (string.IsNullOrEmpty(property.stringValue))
+            if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
             {
                 property.stringValue = System.Guid.NewGuid().ToString(); // Generates the ID
                 serializedObject.ApplyModifiedProperties();  // Tells Unity that the field has been modified
-
             }
+
+            globalLookup[property.stringValue] = this;
         }
-# endif
+
+
+#endif
+
+        // Registers all unique id's in a dictionary and checks if and id is unique
+        private bool IsUnique(string candidate)
+        {
+
+            // Checks to see if it does not contain the unique id 
+            if (!globalLookup.ContainsKey(candidate)) return true;
+
+            // Checks to see if a unique id is in the Dict and is equal the the 
+            // unique id of the current object
+            if (globalLookup[candidate] == this) return true;
+
+            // Check to see if object has been deleted and removes the id
+            if (globalLookup[candidate] == null)
+            {
+                globalLookup.Remove(candidate);
+                return true;
+            }
+
+            // Checks if the globle id is out of date and needs to be removed
+            if (globalLookup[candidate].GetUniqueIdentifier() != candidate)
+            {
+                globalLookup.Remove(candidate);
+                return true;
+            }
+
+            // other wise the id is not unique
+            return false;
+        }
+
 
         public string GetUniqueIdentifier()
         {
