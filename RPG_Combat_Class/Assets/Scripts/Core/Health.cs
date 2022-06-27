@@ -2,10 +2,11 @@ using UnityEngine;
 using RPG.Movement;
 using UnityEngine.AI;
 // using RPG.Saving;
+using RPG.NewSaving;
 
 namespace RPG.Core
 {
-    public class Health : MonoBehaviour  //, ISaveable 
+    public class Health : MonoBehaviour, NewISaveable  //, ISaveable 
     {
         [SerializeField] float healthPoints = 100f;
 
@@ -50,11 +51,10 @@ namespace RPG.Core
         {
             healthPoints = (float)state; 
             
-            if (healthPoints == 0)
+            if (healthPoints <= 0)
             {
                 Die();
             }
-
 
         }
 
