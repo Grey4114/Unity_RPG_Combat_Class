@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // Object - Attached to the NewSavingSystem object, which is a child of the PersistanObjects prefab
 
@@ -13,6 +14,29 @@ namespace RPG.NewSaving
 {
     public class NewSavingSystem : MonoBehaviour 
     {
+        public IEnumerator LoadLastScene(string saveFile)
+        {
+            // get the current save state
+            Dictionary<string, object> state = LoadFile(saveFile);
+
+            // Check if the save file exists or has an scene index key value
+            if(state.ContainsKey("lastSceneBuildIndex"))
+            {
+                // Get the last scene index number (cast into an int)
+                int buildIndex = (int)state["lastSceneBuildIndex"];
+
+                // if not the current scene,  load scene
+                if (buildIndex != SceneManager.GetActiveScene().buildIndex)
+                {
+                    // Load the last scene
+                    yield return SceneManager.LoadSceneAsync(buildIndex);
+                }
+            }
+
+            // Restore the state
+            RestoreState(state);
+
+        }
 
         // Saves the new position info to the savefile
         public void Save(string saveFile)
@@ -84,7 +108,8 @@ namespace RPG.NewSaving
                 // This fills the dictionay with the state of each object
                 state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
             }
-            // return state;
+            // capture scene index number
+            state["lastSceneBuildIndex"] = SceneManager.GetActiveScene().buildIndex;
         }
 
         // Fill a dictionary with the save files info

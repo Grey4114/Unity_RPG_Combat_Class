@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 // Object - Attached to the NewSavingSystem object, which is a child of the PersistanObjects prefab
@@ -9,9 +10,10 @@ namespace RPG.NewSaving
     {
         const string defaultSaveFile = "newSave";
 
-        private void Start() 
+        private IEnumerator Start() 
         {
-            
+            // when starting a game this loads the last saved scene 
+            yield return GetComponent<NewSavingSystem>().LoadLastScene(defaultSaveFile);
         }
 
         public void Update()
@@ -19,13 +21,13 @@ namespace RPG.NewSaving
             if (Input.GetKeyDown(KeyCode.K))
             {
                 // Note - Teacher is using Save() as methode name
-                NewSave();
+                NewLoad();
             }
 
             if (Input.GetKeyDown(KeyCode.A))
             {
                 // Note - Teacher is using Load() as methode name
-                NewLoad();
+                NewSave();
             }
 
         }
