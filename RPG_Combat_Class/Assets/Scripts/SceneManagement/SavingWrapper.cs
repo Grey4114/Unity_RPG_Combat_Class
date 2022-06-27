@@ -21,21 +21,21 @@ namespace RPG.SceneManagement
             yield return fader.FadeIn(fadeInTime);
         }
 
-        void Update()
-        {
-            // Loading a saved game
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                Load();
-            }
+        // void Update()
+        // {
+        //     // Loading a saved game
+        //     if (Input.GetKeyDown(KeyCode.L))
+        //     {
+        //         Load();
+        //     }
 
-            // Save a game
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                Save();
-            }
+        //     // Save a game
+        //     if (Input.GetKeyDown(KeyCode.S))
+        //     {
+        //         Save();
+        //     }
 
-        }
+        // }
 
         // call to the saving system and tell it what to load
         public void Load()

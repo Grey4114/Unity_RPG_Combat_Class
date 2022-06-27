@@ -45,16 +45,11 @@ namespace RPG.SceneManagement
             }
 
             
-
             DontDestroyOnLoad(gameObject);
 
             Fader fader = FindObjectOfType<Fader>();
 
             yield return fader.FadeOut(fadeOutTime);
-
-            // OLD Save current level info
-            // SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-            //wrapper.Save();
 
             // New Save current level info
             NewSavingWrapper savingWrapper = FindObjectOfType<NewSavingWrapper>();
@@ -62,19 +57,13 @@ namespace RPG.SceneManagement
 
             yield return SceneManager.LoadSceneAsync(sceneToLoad);
 
-            // Old Load last level info
-            // wrapper.Load();
-
             // NEW Load last level info
             savingWrapper.NewLoad();
             
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
 
-            // OLD Save new level info
-            // wrapper.Save();
-
-            // OLD Save new level info
+            // New Save new level info
             savingWrapper.NewSave();
 
             yield return new WaitForSeconds(fadeWaitTime);

@@ -35,7 +35,6 @@ namespace RPG.Movement
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            // GetComponent<Fighter>().Cancel();  // Cancels fighting before movingok
             MoveTo(destination, speedFraction);
         }
 
@@ -68,9 +67,6 @@ namespace RPG.Movement
         // ISavable Interface - Can capture/input any object info to the save file
         public object CaptureState()
         {    
-            // OLD Saves the position of the character
-            // return new SerializableVector3(transform.position);
-
             // New Save the position of the character
             return new NewSerializableVector3(transform.position);
         }
@@ -79,11 +75,7 @@ namespace RPG.Movement
         // This is called after Awake() but before Start()
         public void RestoreState(object state)
         {
-            // OLD Save
-            // SerializableVector3 position = (SerializableVector3)state;
-            // transform.position = position.ToVector();   // Get position of character
 
-            // NEWSave
             // pull the vector3 state and saves to new vector3
             NewSerializableVector3 position = (NewSerializableVector3)state;
             

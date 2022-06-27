@@ -33,13 +33,13 @@ namespace RPG.NewSaving
         // Note - Teacher is using Load() as methode name
         public void NewLoad()
         {
-            GetComponent<NewSavingSystem>().Save(defaultSaveFile);
+            GetComponent<NewSavingSystem>().Load(defaultSaveFile);
         }
 
         // Note - Teacher is using Save() as methode name
         public void NewSave()
         {
-            GetComponent<NewSavingSystem>().Load(defaultSaveFile);
+            GetComponent<NewSavingSystem>().Save(defaultSaveFile);
         }
     }
 }

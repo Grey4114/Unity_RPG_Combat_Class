@@ -46,8 +46,7 @@ namespace RPG.NewSaving
 
             globalLookup[property.stringValue] = this;
         }
-
-
+        
 #endif
 
         // Registers all unique id's in a dictionary and checks if and id is unique
