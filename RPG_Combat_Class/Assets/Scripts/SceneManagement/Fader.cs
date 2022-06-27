@@ -10,18 +10,8 @@ namespace RPG.SceneManagement
 
         public void Awake()     // Changed from Start to Awake
         {
-            canvasGroup = GetComponent<CanvasGroup>();
-            // StartCoroutine(FadeOutIn());      
+            canvasGroup = GetComponent<CanvasGroup>(); 
         }
-
-
-        // IEnumerator FadeOutIn()
-        // {
-        //     yield return FadeOut(3f);
-        //     print("Fadeout");
-        //     yield return FadeIn(3f);
-        //     print("FadeIn");
-        // }
 
 
         // This is for Loading a save game from launching the game
@@ -30,6 +20,7 @@ namespace RPG.SceneManagement
         {
             canvasGroup.alpha = 1;
         }
+
 
         public IEnumerator FadeOut(float time) 
         {
